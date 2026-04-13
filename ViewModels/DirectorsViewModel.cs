@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 using Final_Project.Dtos;
 using Final_Project.Helpers;
 using Final_Project.Services;
@@ -11,6 +12,9 @@ public class DirectorsViewModel : BaseViewModel
 
     public ObservableCollection<DirectorListItemDto> Directors { get; set; } = new();
     public ObservableCollection<SimpleMovieDto> DirectorMovies { get; set; } = new();
+
+    public ICommand LoadDirectorsCommand { get; }
+    public ICommand LoadDirectorMoviesCommand { get; }
 
     private string? _searchText;
     public string? SearchText
@@ -30,8 +34,15 @@ public class DirectorsViewModel : BaseViewModel
         set
         {
             _selectedDirector = value;
+            DirectorMovies.Clear();
             OnPropertyChanged();
         }
+    }
+
+    public DirectorsViewModel()
+    {
+        LoadDirectorsCommand = new RelayCommand(async () => await LoadDirectorsAsync());
+        LoadDirectorMoviesCommand = new RelayCommand(async () => await LoadMoviesForSelectedDirectorAsync());
     }
 
     public async Task LoadDirectorsAsync()

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 using Final_Project.Dtos;
 using Final_Project.Helpers;
 using Final_Project.Services;
@@ -11,6 +12,10 @@ public class MoviesViewModel : BaseViewModel
 
     public ObservableCollection<MovieListItemDto> Movies { get; set; } = new();
 
+    public ICommand LoadMoviesCommand { get; }
+    public ICommand LoadTopRatedCommand { get; }
+    public ICommand LoadNewestCommand { get; }
+
     private string? _searchText;
     public string? SearchText
     {
@@ -20,6 +25,13 @@ public class MoviesViewModel : BaseViewModel
             _searchText = value;
             OnPropertyChanged();
         }
+    }
+
+    public MoviesViewModel()
+    {
+        LoadMoviesCommand = new RelayCommand(async () => await LoadMoviesAsync());
+        LoadTopRatedCommand = new RelayCommand(async () => await LoadTopRatedMoviesAsync());
+        LoadNewestCommand = new RelayCommand(async () => await LoadNewestMoviesAsync());
     }
 
     public async Task LoadMoviesAsync()

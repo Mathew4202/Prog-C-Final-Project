@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 using Final_Project.Dtos;
 using Final_Project.Helpers;
 using Final_Project.Services;
@@ -10,6 +11,9 @@ public class ReviewViewModel : BaseViewModel
     private readonly ReviewService _reviewService = new(new Data.ImdbContext());
 
     public ObservableCollection<ReviewItemDto> Reviews { get; set; } = new();
+
+    public ICommand LoadReviewsCommand { get; }
+    public ICommand SubmitReviewCommand { get; }
 
     private string _titleId = "";
     public string TitleId
@@ -53,6 +57,12 @@ public class ReviewViewModel : BaseViewModel
             _reviewText = value;
             OnPropertyChanged();
         }
+    }
+
+    public ReviewViewModel()
+    {
+        LoadReviewsCommand = new RelayCommand(async () => await LoadReviewsAsync());
+        SubmitReviewCommand = new RelayCommand(async () => await SubmitReviewAsync());
     }
 
     public async Task LoadReviewsAsync()

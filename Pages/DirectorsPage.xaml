@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="Final_Project.Pages.DirectorsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="1000">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Directors"
+                   FontSize="28"
+                   FontWeight="Bold"
+                   Margin="0,0,0,15"/>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,15">
+            <TextBox Width="250"
+                     Margin="0,0,10,0"
+                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
+
+            <Button Content="Search"
+                    Width="100"
+                    Margin="0,0,10,0"
+                    Command="{Binding LoadDirectorsCommand}" />
+
+            <Button Content="Load Movies"
+                    Width="120"
+                    Command="{Binding LoadDirectorMoviesCommand}" />
+        </StackPanel>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Margin="0,0,20,0">
+                <TextBlock Text="Directors"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Margin="0,0,0,10"/>
+
+                <ListBox ItemsSource="{Binding Directors}"
+                         SelectedItem="{Binding SelectedDirector, Mode=TwoWay}"
+                         DisplayMemberPath="DirectorName"
+                         Height="350"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1">
+                <TextBlock Text="Movies by Selected Director"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Margin="0,0,0,10"/>
+
+                <DataGrid ItemsSource="{Binding DirectorMovies}"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          Height="350">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Title" Binding="{Binding PrimaryTitle}" Width="*"/>
+                        <DataGridTextColumn Header="Year" Binding="{Binding StartYear}" Width="100"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>
