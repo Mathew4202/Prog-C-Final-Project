@@ -91,4 +91,33 @@ public class MovieService
             .Include(t => t.Reviews)
             .FirstOrDefaultAsync(t => t.TitleId == titleId);
     }
+
+    public async Task<FullMovieDetailsDto?> GetFullMovieDetailsAsync(string titleId)
+    {
+        var movie = await _context.Titles
+            .Include(t => t.Rating)
+            .Include(t => t.Names)
+            .FirstOrDefaultAsync(t => t.TitleId == titleId);
+
+        if (movie == null)
+            return null;
+
+        return new FullMovieDetailsDto
+        {
+            TitleId = movie.TitleId,
+            PrimaryTitle = movie.PrimaryTitle,
+            OriginalTitle = movie.OriginalTitle,
+            TitleType = movie.TitleType,
+            IsAdult = movie.IsAdult,
+            StartYear = movie.StartYear,
+            EndYear = movie.EndYear,
+            RuntimeMinutes = movie.RuntimeMinutes,
+            AverageRating = movie.Rating?.AverageRating,
+            NumVotes = movie.Rating?.NumVotes,
+            Directors = movie.Names
+                .Select(n => n.PrimaryName ?? "")
+                .Where(n => !string.IsNullOrWhiteSpace(n))
+                .ToList()
+        };
+    }
 }

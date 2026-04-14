@@ -13,9 +13,6 @@ public class DirectorsViewModel : BaseViewModel
     public ObservableCollection<DirectorListItemDto> Directors { get; set; } = new();
     public ObservableCollection<SimpleMovieDto> DirectorMovies { get; set; } = new();
 
-    public ICommand LoadDirectorsCommand { get; }
-    public ICommand LoadDirectorMoviesCommand { get; }
-
     private string? _searchText;
     public string? SearchText
     {
@@ -39,6 +36,9 @@ public class DirectorsViewModel : BaseViewModel
         }
     }
 
+    public ICommand LoadDirectorsCommand { get; }
+    public ICommand LoadDirectorMoviesCommand { get; }
+
     public DirectorsViewModel()
     {
         LoadDirectorsCommand = new RelayCommand(async () => await LoadDirectorsAsync());
@@ -49,6 +49,7 @@ public class DirectorsViewModel : BaseViewModel
     {
         Directors.Clear();
         var directors = await _directorService.GetDirectorsAsync(SearchText);
+
         foreach (var director in directors)
             Directors.Add(director);
     }
@@ -61,6 +62,7 @@ public class DirectorsViewModel : BaseViewModel
             return;
 
         var movies = await _directorService.GetMoviesByDirectorAsync(SelectedDirector.NameId);
+
         foreach (var movie in movies)
             DirectorMovies.Add(movie);
     }
