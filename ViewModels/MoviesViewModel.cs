@@ -12,10 +12,6 @@ public class MoviesViewModel : BaseViewModel
 
     public ObservableCollection<MovieListItemDto> Movies { get; set; } = new();
 
-    public ICommand LoadMoviesCommand { get; }
-    public ICommand LoadTopRatedCommand { get; }
-    public ICommand LoadNewestCommand { get; }
-
     private string? _searchText;
     public string? SearchText
     {
@@ -26,6 +22,10 @@ public class MoviesViewModel : BaseViewModel
             OnPropertyChanged();
         }
     }
+
+    public ICommand LoadMoviesCommand { get; }
+    public ICommand LoadTopRatedCommand { get; }
+    public ICommand LoadNewestCommand { get; }
 
     public MoviesViewModel()
     {
@@ -38,6 +38,7 @@ public class MoviesViewModel : BaseViewModel
     {
         Movies.Clear();
         var movies = await _movieService.GetAllMoviesAsync(SearchText);
+
         foreach (var movie in movies)
             Movies.Add(movie);
     }
@@ -46,6 +47,7 @@ public class MoviesViewModel : BaseViewModel
     {
         Movies.Clear();
         var movies = await _movieService.GetTopRatedMoviesAsync();
+
         foreach (var movie in movies)
             Movies.Add(movie);
     }
@@ -54,6 +56,7 @@ public class MoviesViewModel : BaseViewModel
     {
         Movies.Clear();
         var movies = await _movieService.GetNewestMoviesAsync();
+
         foreach (var movie in movies)
             Movies.Add(movie);
     }

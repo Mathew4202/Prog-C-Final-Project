@@ -4,69 +4,127 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="1000">
+             d:DesignHeight="700" d:DesignWidth="1100">
 
-    <Grid Margin="20">
+    <Grid Background="#F4F4F5">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="80"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Directors"
-                   FontSize="28"
-                   FontWeight="Bold"
-                   Margin="0,0,0,15"/>
+        <Border Background="#171717" Grid.Row="0">
+            <Grid Margin="20,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,15">
-            <TextBox Width="250"
-                     Margin="0,0,10,0"
-                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Text="Directors"
+                           Foreground="White"
+                           FontSize="30"
+                           FontWeight="Bold"
+                           VerticalAlignment="Center"/>
 
-            <Button Content="Search"
-                    Width="100"
-                    Margin="0,0,10,0"
-                    Command="{Binding LoadDirectorsCommand}" />
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    <TextBox Width="260"
+                             Height="38"
+                             Padding="10,6"
+                             Margin="0,0,10,0"
+                             Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
 
-            <Button Content="Load Movies"
-                    Width="120"
-                    Command="{Binding LoadDirectorMoviesCommand}" />
-        </StackPanel>
+                    <Button Content="Search"
+                            Width="90"
+                            Height="38"
+                            Margin="0,0,10,0"
+                            Background="White"
+                            Foreground="#171717"
+                            Command="{Binding LoadDirectorsCommand}" />
 
-        <Grid Grid.Row="2">
+                    <Button Content="Load Movies"
+                            Width="110"
+                            Height="38"
+                            Background="White"
+                            Foreground="#171717"
+                            Command="{Binding LoadDirectorMoviesCommand}" />
+                </StackPanel>
+
+                <Button Content="Home"
+                        Grid.Column="2"
+                        Width="90"
+                        Height="38"
+                        Margin="0,0,10,0"
+                        VerticalAlignment="Center"
+                        Background="White"
+                        Foreground="#171717"
+                        Click="HomeButton_Click"/>
+
+                <Button Content="Back to Movies"
+                        Grid.Column="3"
+                        Width="130"
+                        Height="38"
+                        VerticalAlignment="Center"
+                        Background="White"
+                        Foreground="#171717"
+                        Click="BackToMoviesButton_Click"/>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="1" Margin="24">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Column="0" Margin="0,0,20,0">
-                <TextBlock Text="Directors"
-                           FontSize="20"
-                           FontWeight="Bold"
-                           Margin="0,0,0,10"/>
+            <Border Grid.Column="0"
+                    Background="White"
+                    CornerRadius="14"
+                    BorderBrush="#E5E7EB"
+                    BorderThickness="1"
+                    Padding="16"
+                    Margin="0,0,18,0">
+                <StackPanel>
+                    <TextBlock Text="Directors"
+                               FontSize="22"
+                               FontWeight="Bold"
+                               Margin="0,0,0,12"/>
 
-                <ListBox ItemsSource="{Binding Directors}"
-                         SelectedItem="{Binding SelectedDirector, Mode=TwoWay}"
-                         DisplayMemberPath="DirectorName"
-                         Height="350"/>
-            </StackPanel>
+                    <ListBox ItemsSource="{Binding Directors}"
+                             SelectedItem="{Binding SelectedDirector, Mode=TwoWay}"
+                             DisplayMemberPath="DirectorName"
+                             BorderBrush="#D1D5DB"
+                             Height="480"/>
+                </StackPanel>
+            </Border>
 
-            <StackPanel Grid.Column="1">
-                <TextBlock Text="Movies by Selected Director"
-                           FontSize="20"
-                           FontWeight="Bold"
-                           Margin="0,0,0,10"/>
+            <Border Grid.Column="1"
+                    Background="White"
+                    CornerRadius="14"
+                    BorderBrush="#E5E7EB"
+                    BorderThickness="1"
+                    Padding="16">
+                <StackPanel>
+                    <TextBlock Text="Movies by Selected Director"
+                               FontSize="22"
+                               FontWeight="Bold"
+                               Margin="0,0,0,12"/>
 
-                <DataGrid ItemsSource="{Binding DirectorMovies}"
-                          AutoGenerateColumns="False"
-                          IsReadOnly="True"
-                          Height="350">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Title" Binding="{Binding PrimaryTitle}" Width="*"/>
-                        <DataGridTextColumn Header="Year" Binding="{Binding StartYear}" Width="100"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </StackPanel>
+                    <DataGrid ItemsSource="{Binding DirectorMovies}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              BorderBrush="#D1D5DB"
+                              Height="480">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Title" Binding="{Binding PrimaryTitle}" Width="*"/>
+                            <DataGridTextColumn Header="Year" Binding="{Binding StartYear}" Width="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
         </Grid>
     </Grid>
 </UserControl>
